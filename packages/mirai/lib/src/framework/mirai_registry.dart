@@ -14,9 +14,9 @@ class MiraiRegistry {
 
   static final _miraiActionParsers = <String, MiraiActionParser>{};
 
-  bool register(MiraiParser parser) {
+  bool register(MiraiParser parser, {bool override = false}) {
     final String type = parser.type;
-    if (_miraiParsers.containsKey(type)) {
+    if (_miraiParsers.containsKey(type) && override == false) {
       Log.w('Widget $type is already registered');
       return false;
     } else {
@@ -25,9 +25,9 @@ class MiraiRegistry {
     }
   }
 
-  bool registerAction(MiraiActionParser parser) {
+  bool registerAction(MiraiActionParser parser, {bool override = false}) {
     final String type = parser.actionType;
-    if (_miraiActionParsers.containsKey(type)) {
+    if (_miraiActionParsers.containsKey(type) && override == false) {
       Log.w('Action $type is already registered');
       return false;
     } else {
@@ -36,20 +36,20 @@ class MiraiRegistry {
     }
   }
 
-  Future<dynamic> registerAll(List<MiraiParser> parsers) {
+  Future<dynamic> registerAll(List<MiraiParser> parsers, {bool override = false}) {
     return Future.forEach(
       parsers,
       (MiraiParser parser) {
-        return register(parser);
+        return register(parser, override: override);
       },
     );
   }
 
-  Future<dynamic> registerAllActions(List<MiraiActionParser> parsers) {
+  Future<dynamic> registerAllActions(List<MiraiActionParser> parsers, {bool override = false}) {
     return Future.forEach(
       parsers,
       (MiraiActionParser parser) {
-        return registerAction(parser);
+        return registerAction(parser, override: override);
       },
     );
   }
